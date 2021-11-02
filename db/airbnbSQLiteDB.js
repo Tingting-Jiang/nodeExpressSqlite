@@ -178,52 +178,52 @@ async function deleteReview(reviewToDelete) {
 }
 
  
-// async function updateReview(reviewToUpdate) {
+async function updateReview(reviewToUpdate) {
 
-//      const db = await connect();
+     const db = await connect();
 
-//      const stmt = await db.prepare(`UPDATE Review
-//       SET lastReviewTime = :lastReviewTime, 
-//           reviewNum = :reviewNum,
-//           reviewScoreRating = :reviewScoreRating , 
-//           reviewScoreAccuracy = :reviewScoreAccuracy, 
-//           reviewScoreCleanliness = :reviewScoreCleanliness, 
-//           reviewScoreCheckin = :reviewScoreCheckin,
-//           reviewScoreLocation = :reviewScoreLocation, 
-//           reviewScoreValue = :reviewScoreValue, 
-//           reviewPerMonth = :reviewPerMonth
-//       WHERE reviewID = :reviewID
-//     `);
+     const stmt = await db.prepare(`UPDATE Review
+      SET lastReviewTime = :lastReviewTime, 
+          reviewNum = :reviewNum,
+          reviewScoreRating = :reviewScoreRating , 
+          reviewScoreAccuracy = :reviewScoreAccuracy, 
+          reviewScoreCleanliness = :reviewScoreCleanliness, 
+          reviewScoreCheckin = :reviewScoreCheckin,
+          reviewScoreLocation = :reviewScoreLocation, 
+          reviewScoreValue = :reviewScoreValue, 
+          reviewPerMonth = :reviewPerMonth
+      WHERE reviewID = :reviewID
+    `);
 
-//     stmt.bind({
-//       ":reviewID": reviewToUpdate.reviewID,
-//       ":lastReviewTime": reviewToUpdate.lastReviewTime,
-//       ":reviewNum": reviewToUpdate.reviewNum,
-//       ":reviewScoreRating": reviewToUpdate.reviewScoreRating,
-//       ":reviewScoreAccuracy": reviewToUpdate.reviewScoreAccuracy,
-//       ":reviewScoreCleanliness": reviewToUpdate.reviewScoreCleanliness,
-//       ":reviewScoreCheckin": reviewToUpdate.reviewScoreCheckin,
-//       ":reviewScoreLocation": reviewToUpdate.reviewScoreLocation,
-//       ":reviewScoreValue": reviewToUpdate.reviewScoreValue,
-//       ":reviewPerMonth": reviewToUpdate.reviewPerMonth,
-//       });
-//     console.log("--------before return");
+    stmt.bind({
+      ":reviewID": reviewToUpdate.reviewID,
+      ":lastReviewTime": reviewToUpdate.lastReviewTime,
+      ":reviewNum": reviewToUpdate.reviewNum,
+      ":reviewScoreRating": reviewToUpdate.reviewScoreRating,
+      ":reviewScoreAccuracy": reviewToUpdate.reviewScoreAccuracy,
+      ":reviewScoreCleanliness": reviewToUpdate.reviewScoreCleanliness,
+      ":reviewScoreCheckin": reviewToUpdate.reviewScoreCheckin,
+      ":reviewScoreLocation": reviewToUpdate.reviewScoreLocation,
+      ":reviewScoreValue": reviewToUpdate.reviewScoreValue,
+      ":reviewPerMonth": reviewToUpdate.reviewPerMonth,
+      });
 
-//     return await stmt.run();
-//     stmt.finalize();
+    return await stmt.run();
+    stmt.finalize();
 
 
-// }
+}
+
+
 
 
 
 // async function updateReview(reviewToUpdate) {
     
-//      let stmt, db;
-//      try{
-//         db = await connect();
+     
+//       const db = await connect();
 
-//        stmt = await db.prepare(`UPDATE Review
+//       const stmt = await db.prepare(`UPDATE Review
 //         SET lastReviewTime = :lastReviewTime           
 //         WHERE reviewID = :reviewID
 //       `);
@@ -234,32 +234,8 @@ async function deleteReview(reviewToDelete) {
 //         });
 
 //       return await stmt.run();
-//     } finally{
-//       stmt.finalize();
-//       db.close();
-//     }
-//}
-
-
-
-async function updateReview(reviewToUpdate) {
     
-     
-      const db = await connect();
-
-      const stmt = await db.prepare(`UPDATE Review
-        SET lastReviewTime = :lastReviewTime           
-        WHERE reviewID = :reviewID
-      `);
-
-      stmt.bind({
-        ":reviewID": reviewToUpdate.reviewID,
-        ":lastReviewTime": reviewToUpdate.lastReviewTime,
-        });
-
-      return await stmt.run();
-    
-}
+// }
  
 
 
