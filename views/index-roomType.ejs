@@ -29,13 +29,14 @@
   
 
 
-          <h2>Districts</h2>
+          <h2>Room Types</h2>
           <ul>
-            <% districts.forEach(function (f) { %>
+            <% roomTypes.forEach(function (r) { %>
 
-            <li><a href="/district/<%= f.districtId %>"><%= f.districtId %> 👉 <%= f.districtName %></a>
-              <form action="/district/delete" method="POST">
-                <input type="hidden" name="districtId" value="<%= f.districtId %>">
+            <li><a href="/roomType/<%= r.roomTypeID %>">
+              <%= r.roomTypeID %> 👉 <%= r.roomTypeName %></a>
+              <form action="/roomType/delete" method="POST">
+                <input type="hidden" name="roomTypeID" value="<%= r.roomTypeID %>">
                 <button type="submit" class="btn btn-danger">Delete</button>
               </form>
             </li>
@@ -48,15 +49,15 @@
 
 
         <div class="col-4">
-          <h2>Create District</h2>
+          <h2>Create Room Type</h2>
 
-          <form action="/district/create" method="POST">
+          <form action="/roomType/create" method="POST">
             <div>
               <label class="form-label"
-                >DistrictName:
+                >Room Type Name:
                 <input
                   required="true"
-                  name="districtName"
+                  name="roomTypeName"
                   type="text"
                   class="form-control"
               /></label>

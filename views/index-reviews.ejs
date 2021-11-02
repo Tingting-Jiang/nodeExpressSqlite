@@ -26,91 +26,143 @@
             optio debitis velit, excepturi ducimus minus! Ducimus reiciendis non
             inventore, sunt?
           </div>
-  
+          <h2>Reviews</h2>
+           <ul>
+            <% reviews.forEach(function (r) { %>
+
+              <li><a href="/review/<%= r.reviewID %>">
+              <%= r.reviewID %> 👉 <%= r.lastReviewTime %></a>
 
 
-          <h2>Districts</h2>
-          <ul>
-            <% districts.forEach(function (f) { %>
-
-            <li><a href="/district/<%= f.districtId %>"><%= f.districtId %> 👉 <%= f.districtName %></a>
-              <form action="/district/delete" method="POST">
-                <input type="hidden" name="districtId" value="<%= f.districtId %>">
+              <form action="/review/delete" method="POST">
+                <input type="hidden" name="reviewID" value="<%= r.reviewID %>">
                 <button type="submit" class="btn btn-danger">Delete</button>
               </form>
             </li>
-
-            <% })%>
+                 <% })%>
           </ul>
         </div>
-        <!-- /.col-8 -->
-
 
 
         <div class="col-4">
-          <h2>Create District</h2>
+          <h2>Create Review</h2>
 
-          <form action="/district/create" method="POST">
+          <form action="/review/create" method="POST">
             <div>
               <label class="form-label"
-                >DistrictName:
+                >lastReviewTime:
                 <input
                   required="true"
-                  name="districtName"
+                  name="lastReviewTime"
                   type="text"
-                  class="form-control"
-              /></label>
-            </div>
-           <!--  <div>
-              <label class="form-label"
-                >Start Date:
-                <input
-                  required="true"
-                  name="startDate"
-                  type="text"
-                  class="form-control"
-                  value="10/26/2021"
-              /></label>
-            </div>
-            <div>
-              <label class="form-label"
-                >End Date:
-                <input
-                  required="true"
-                  name="endDate"
-                  type="text"
-                  class="form-control"
-                  value="10/28/2021"
-              /></label>
-            </div>
-            <div>
-              <label class="form-label"
-                >Size:
-                <input
-                  required="true"
-                  value="10"
-                  name="size"
-                  type="number"
                   class="form-control"
               /></label>
             </div>
 
-            <div>
+
+          <div>
               <label class="form-label"
-                >OwnerID:
+                >Review Num:
                 <input
                   required="true"
-                  value="10"
-                  name="size"
+                  name="reviewNum"
+                  type="text"
+                  class="form-control"
+                  value="1"
+              /></label>
+            </div>
+            <div>
+              <label class="form-label"
+                Review Score Rating:
+                <input
+                  required="true"
+                  name="reviewScoreRating"
                   type="number"
                   class="form-control"
+                  value="5"
               /></label>
-            </div> -->
+            </div>
+            <div>
+              <label class="form-label"
+               >Review Score Accuracy:
+                <input
+                  required="true"
+                  name="reviewScoreAccuracy"
+                  type="number"
+                  class="form-control"
+                  value="5"
+              /></label>
+            </div>
+            <div>
+            <label class="form-label"
+              >Review Score Cleanliness:
+              <input
+                required="true"
+                name="reviewScoreCleanliness"
+                 type="number"
+                  class="form-control"
+                  value="5"
+            /></label>
+          </div>
+
+            <div>
+              <label class="form-label"
+                >Review Score Checkin:
+                <input
+                  required="true"
+                  name="reviewScoreCheckin"
+                   type="number"
+                  class="form-control"
+                  value="5"
+              /></label>
+            </div>
+
+            <div>
+              <label class="form-label"
+                >Review Score Location:
+                <input
+                  required="true"
+                  name="reviewScoreLocation"
+                   type="number"
+                  class="form-control"
+                  value="5"
+              /></label>
+            </div>
+
+            <div>
+              <label class="form-label"
+                >Review Score Value:
+                <input
+                  required="true"
+                  name="reviewScoreValue"
+                  type="number"
+                  class="form-control"
+                  value="5"
+              /></label>
+            </div>
+
+            <div>
+              <label class="form-label"
+                >Review Per Month:
+                <input
+                  required="true"
+                  name="reviewPerMonth"
+                  type="number"
+                  class="form-control"
+                  value="5"
+              /></label>
+            </div>
 
             <button type="submit" class="btn btn-primary">Create</button>
           </form>
         </div>
         <!-- /.col-4 -->
+
+        
+
+  
+        <!-- /.col-4 -->
+
       </main>
 
       <footer>
