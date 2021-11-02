@@ -17,13 +17,13 @@
     <nav></nav>
 
     <main class="row">
-        <h1>District Details</h1>
+        <h1>Host Response Time Details</h1>
         <div class="col-8">
-            <form action="/districts/update" method="POST">
+            <form action="/hostresponsetimes/update" method="POST">
                 <div>
-                    <label class="form-label">DistrictNewName:
-                        <input required="true" name="districtNewName" type="text" class="form-control"/>
-                        <input type="hidden" name="districtId" value="<%= district.districtId %>">
+                    <label class="form-label">Host Response Time New Name:
+                        <input required="true" name="hostResponseTime" type="text" class="form-control"/>
+                        <input type="hidden" name="hostResponseTimeId" value="<%= hostResponseTime.hostResponseTimeId %>">
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>

@@ -11,97 +11,12 @@ async function connect() {
 }
 
 
-
-/* ---------Districts related functions starts from here -----------------*/
-/* add lines to close the db */
-async function getDistricts() {
-  const db = await connect();
-
-  try {
-    return await db.all("SELECT * FROM District");
-  } finally {
-    await db.close();
-  }
-}
-
-
-
-async function createDistrict(newDistrict) {
-  const db = await connect();
-
-  const stmt = await db.prepare(`INSERT INTO
-    District(districtName)
-    VALUES (:districtName)
-  `);
-
-  stmt.bind({
-    ":districtName": newDistrict.districtName,
-  });
-
-  return await stmt.run();
-}
-
-async function getdistrictByID(districtId) {
-
-  let db, stmt;
-  try {
-    db = await connect();
-    stmt = await db.prepare(`SELECT *
-    FROM District
-    WHERE
-      districtId = :districtId
-  `);
-
-  stmt.bind({
-    ":districtId": districtId,
-  });
-    return await stmt.get();
-  } finally {
-    stmt.finalize();
-    db.close();
-  }
-}
-
-
-async function deleteDistrict(DistrictToDelete) {
-  const db = await connect();
-
-  const stmt = await db.prepare(`DELETE FROM
-    District
-    WHERE districtId = :theIDToDelete
-  `);
-
-  stmt.bind({
-    ":theIDToDelete": DistrictToDelete.districtId,
-  });
-
-  return await stmt.run();
-}
-
- 
-async function updateDistrict(districtToUpdate) {
-  const db = await connect();
-
-  const stmt = await db.prepare(`UPDATE District
-    SET districtName = :districtName
-    WHERE districtId = :districtId
-  `);
-
-  stmt.bind({
-    ":districtName" : districtToUpdate.districtName,
-    ":districtId" : districtToUpdate.districtId,
-  });
-
-  return await stmt.run();
-}
-
-
 /* ---------Reviews related functions starts from here -----------------*/
 async function getReviews() {
   const db = await connect();
 
   try {
-    return await db.all("SELECT * FROM Review ORDER BY reviewID DESC LIMIT 20");
+    return await db.all("SELECT * FROM Review ORDER BY reviewID DESC LIMIT 15");
   } finally {
     await db.close();
   }
@@ -218,28 +133,6 @@ async function updateReview(reviewToUpdate) {
 
 
 
-// async function updateReview(reviewToUpdate) {
-    
-     
-//       const db = await connect();
-
-//       const stmt = await db.prepare(`UPDATE Review
-//         SET lastReviewTime = :lastReviewTime           
-//         WHERE reviewID = :reviewID
-//       `);
-
-//       stmt.bind({
-//         ":reviewID": reviewToUpdate.reviewID,
-//         ":lastReviewTime": reviewToUpdate.lastReviewTime,
-//         });
-
-//       return await stmt.run();
-    
-// }
- 
-
-
-
 /* ---------Property type related functions starts from here -----------------*/
 /* add lines to close the db */
 async function getRoomType() {
@@ -326,11 +219,238 @@ async function updateRoomType(roomTypeToUpdate) {
 
 
 
+/* District DB function and host functions starts from here -------------------------*/
+ 
+/**
+ * get all districts
+ * @returns {Promise<any[]>}
+ */
+async function getDistricts() {
+  const db = await connect();
+  //return await db.all("SELECT * FROM District");
+  try{
+    return await db.all("SELECT * FROM District ORDER BY districtID DESC LIMIT 15");
+  } finally {
+    await db.close();
+  }
+}
+
+/**
+ * get all host response time
+ * @returns {Promise<any[]>}
+ */
+async function getAllHostResponseTime() {
+  const db = await connect();
+  try{
+    return await db.all("SELECT * FROM HostResponseTime");
+  } finally {
+    await db.close();
+  }
+}
+
+/**
+ * get a single district by id
+ * @param districtId
+ * @returns {Promise<any>}
+ */
+async function getDistrictByID(districtId) {
+  let db, stmt;
+  try{
+    db = await connect();
+    stmt = await db.prepare(`SELECT *
+    FROM District
+    WHERE
+      districtId = :districtId
+  `);
+    stmt.bind({
+      ":districtId": districtId,
+    });
+    return await stmt.get();
+  }finally {
+    stmt.finalize();
+    db.close();
+  }
+}
+
+/**
+ * get a single host response time by id
+ * @param hostResponseTimeId
+ * @returns {Promise<any>}
+ */
+async function getHostResponseTimeByID(hostResponseTimeId) {
+  let db, stmt;
+  try{
+    db = await connect();
+    stmt = await db.prepare(`SELECT *
+    FROM HostResponseTime
+    WHERE
+      hostResponseTimeId = :hostResponseTimeId
+  `);
+    stmt.bind({
+      ":hostResponseTimeId": hostResponseTimeId,
+    });
+    return await stmt.get();
+  }finally {
+    stmt.finalize();
+    db.close();
+  }
+}
+
+/**
+ * create a district
+ * @param newDistrict
+ * @returns {Promise<ISqlite.RunResult<sqlite3.Statement>>}
+ */
+async function createDistrict(newDistrict) {
+  let db, stmt;
+  try{
+    db = await connect();
+    stmt = await db.prepare(`INSERT INTO
+    District(districtName)
+    VALUES (:districtName)
+  `);
+    stmt.bind({
+      ":districtName": newDistrict.districtName,
+    });
+    return await stmt.run();
+  }finally {
+    stmt.finalize();
+    db.close();
+  }
+}
+
+/**
+ * create a host response time
+ * @param newHostResponseTime
+ * @returns {Promise<ISqlite.RunResult<sqlite3.Statement>>}
+ */
+async function createHostResponseTime(newHostResponseTime) {
+  let db, stmt;
+  try{
+    db = await connect();
+    stmt = await db.prepare(`INSERT INTO
+    HostResponseTime(hostResponseTime)
+    VALUES (:hostResponseTime)
+  `);
+    stmt.bind({
+      ":hostResponseTime": newHostResponseTime.hostResponseTime,
+    });
+    return await stmt.run();
+  }finally {
+    stmt.finalize();
+    db.close();
+  }
+}
+
+/**
+ * delete from district
+ * @param districtToDelete
+ * @returns {Promise<ISqlite.RunResult<sqlite3.Statement>>}
+ */
+async function deleteDistrict(districtToDelete) {
+  let db, stmt;
+  try{
+    db = await connect();
+    stmt = await db.prepare(`DELETE FROM
+    District
+    WHERE districtId = :theIDToDelete
+  `);
+    stmt.bind({
+      ":theIDToDelete": districtToDelete.districtId,
+    });
+    return await stmt.run();
+  }finally {
+    stmt.finalize();
+    db.close();
+  }
+
+}
+
+/**
+ * delete from host response time
+ * @param HostResponseTimeToDelete
+ * @returns {Promise<ISqlite.RunResult<sqlite3.Statement>>}
+ */
+async function deleteHostResponseTime(HostResponseTimeToDelete) {
+  let db, stmt;
+  try{
+    db = await connect();
+    stmt = await db.prepare(`DELETE FROM
+    HostResponseTime
+    WHERE hostResponseTimeId = :theIDToDelete
+  `);
+    stmt.bind({
+      ":theIDToDelete": HostResponseTimeToDelete.hostResponseTimeId,
+    });
+    return await stmt.run();
+  }finally {
+    stmt.finalize();
+    db.close();
+  }
+}
+
+/**
+ * update district
+ * @param districtToUpdate
+ * @returns {Promise<ISqlite.RunResult<sqlite3.Statement>>}
+ */
+async function updateDistrict(districtToUpdate) {
+  let db, stmt;
+  try{
+    db = await connect();
+    stmt = await db.prepare(`UPDATE District
+        SET districtName = :districtNameToUpdate
+        Where districtId = :districtIdToUpdate;
+  `);
+    stmt.bind({
+      ":districtNameToUpdate": districtToUpdate.districtNewName,
+      ":districtIdToUpdate": districtToUpdate.districtId,
+    });
+    return await stmt.run();
+  }finally {
+    stmt.finalize();
+    db.close();
+  }
+
+}
+
+/**
+ * update host response time
+ * @param hostResponseTimeToUpdate
+ * @returns {Promise<ISqlite.RunResult<sqlite3.Statement>>}
+ */
+async function updateHostResponseTime(hostResponseTimeToUpdate) {
+  let db, stmt;
+  try{
+    db = await connect();
+    stmt = await db.prepare(`UPDATE HostResponseTime
+        SET hostResponseTime = :hostResponseTimeNameToUpdate
+        Where hostResponseTimeId = :hostResponseTimeIdToUpdate;
+  `);
+    stmt.bind({
+      ":hostResponseTimeNameToUpdate": hostResponseTimeToUpdate.hostResponseTime,
+      ":hostResponseTimeIdToUpdate": hostResponseTimeToUpdate.hostResponseTimeId,
+    });
+    return await stmt.run();
+  }finally {
+    //stmt.finalize();
+    db.close();
+  }
+
+}
+
 module.exports.getDistricts = getDistricts;
 module.exports.createDistrict = createDistrict;
 module.exports.deleteDistrict = deleteDistrict;
-module.exports.getdistrictByID = getdistrictByID;
+module.exports.getDistrictByID = getDistrictByID;
 module.exports.updateDistrict = updateDistrict;
+
+module.exports.getAllHostResponseTime = getAllHostResponseTime;
+module.exports.getHostResponseTimeByID = getHostResponseTimeByID;
+module.exports.createHostResponseTime = createHostResponseTime;
+module.exports.deleteHostResponseTime = deleteHostResponseTime;
+module.exports.updateHostResponseTime = updateHostResponseTime;
+
 
 module.exports.getReviews = getReviews;
 module.exports.createReview = createReview;
@@ -344,5 +464,6 @@ module.exports.createRoomType = createRoomType;
 module.exports.deleteRoomType = deleteRoomType;
 module.exports.getRoomTypeByID = getRoomTypeByID;
 module.exports.updateRoomType = updateRoomType;
+
 
 

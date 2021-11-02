@@ -4,98 +4,123 @@ const myDB = require("../db/airbnbSQLiteDB.js");
 
 
 
-/* ---------Districts related functions starts from here -----------------*/
-/* GET home page. */
+/*Get all district*/
 router.get("/", async function (req, res) {
   console.log("Got request for /");
+  const districts = await myDB.getDistricts();
+  console.log("got districts", districts);
 
-  const district = await myDB.getDistricts();
+  const hostresponsetimes = await myDB.getAllHostResponseTime();
+  console.log("got hostresponsetimes", hostresponsetimes);
+  // render districts and hostresponsetimes
 
-  console.log("got districts", district);
+  const reviews = await myDB.getReviews();
 
-  // render the _index_ template with the districts attrib as the list of districts
-  res.render("index", { districts: district});
+  const roomType = await myDB.getRoomType();
+  res.render("index", { districts: districts, hostresponsetimes: hostresponsetimes, 
+                        reviews: reviews, roomTypes: roomType});
 });
 
+/* ---------Districts related functions starts from here -----------------*/
 
-
-
-
-/* GET districts details. */
-router.get("/district/:districtId", async function (req, res) {
-  console.log("Got districts details");
-
+router.get("/districts/:districtId", async function (req, res) {
+  console.log("Got district details");
   const districtId = req.params.districtId;
-
-  console.log("got districts ", districtId);
-
-  const district = await myDB.getdistrictByID(districtId);
-
-  console.log("got district by id");
-
-  res.render("DistrictDetails", {district: district});
+  console.log("got district details ", districtId);
+  const district = await myDB.getDistrictByID(districtId);
+  console.log("district created");
+  res.render("districtDetails", {district: district});
 });
 
-/* POST create districts. */
-router.post("/district/create", async function (req, res) {
+
+/* POST create district. */
+router.post("/districts/create", async function (req, res) {
   console.log("Got post create/district");
-
   const district = req.body;
-
   console.log("got create district", district);
-
   await myDB.createDistrict(district);
-
-  console.log("districts created");
-
+  console.log("District created");
   res.redirect("/");
 });
 
-/* POST delete districts. */
-router.post("/district/delete", async function (req, res) {
+/* POST delete district. */
+router.post("/districts/delete", async function (req, res) {
   console.log("Got post delete district");
-
   const district = req.body;
-
   console.log("got delete district", district);
-
   await myDB.deleteDistrict(district);
-
-  console.log("district deleted");
-
+  console.log("District deleted");
   res.redirect("/");
 });
 
-
-/* POST update districts. */
-router.post("/district/:districtId", async function (req, res) {
-  console.log("Got post update district");
-
+/* Update district. */
+router.post("/districts/update", async function (req, res) {
+  console.log("Got post update districts");
   const district = req.body;
-
   console.log("got update district", district);
-
   await myDB.updateDistrict(district);
-
   console.log("district updated");
-
   res.redirect("/");
 });
+
+
+/* ---------Hosts related functions starts from here -----------------*/
+/* GET a single host response time. */
+router.get("/hostresponsetimes/:hostResponseTimeId", async function (req, res) {
+  console.log("Got district details");
+  const hostResponseTimeId = req.params.hostResponseTimeId;
+  console.log("got district details ", hostResponseTimeId);
+  const hostResponseTime = await myDB.getHostResponseTimeByID(hostResponseTimeId);
+  console.log("district created");
+  res.render("hostResponseTimeDetails", {hostResponseTime: hostResponseTime});
+});
+
+/* POST create hostresponsetimes. */
+router.post("/hostresponsetimes/create", async function (req, res) {
+  console.log("Got post create/district");
+  const hostResponseTime = req.body;
+  console.log("got create district", hostResponseTime);
+  await myDB.createHostResponseTime(hostResponseTime);
+  console.log("District created");
+  res.redirect("/");
+});
+
+/* POST delete hostresponsetimes. */
+router.post("/hostresponsetimes/delete", async function (req, res) {
+  console.log("Got post delete district");
+  const hostResponseTime = req.body;
+  console.log("got delete district", hostResponseTime);
+  await myDB.deleteHostResponseTime(hostResponseTime);
+  console.log("District deleted");
+  res.redirect("/");
+});
+
+/* Update districts. */
+router.post("/hostresponsetimes/update", async function (req, res) {
+  console.log("Got post update districts");
+  const hostResponseTime = req.body;
+  console.log("got update district", hostResponseTime);
+  await myDB.updateHostResponseTime(hostResponseTime);
+  console.log("district updated");
+  res.redirect("/");
+});
+
+
+
+
 
 
 
 
 /* ---------Reviews related functions starts from here -----------------*/
-router.get("/review", async function (req, res) {
-  console.log("Got request for /");
+// router.get("/review", async function (req, res) {
+//   console.log("Got request for /");
 
-  const reviews = await myDB.getReviews();
+//   const reviews = await myDB.getReviews();
 
-  // console.log("got reviews", reviews);
-
-  // render the _index_ template with the reviews attrib as the list of reviews
-  res.render("index-reviews", { reviews: reviews});
-});
+//   // render the _index_ template with the reviews attrib as the list of reviews
+//   res.render("index-reviews", { reviews: reviews});
+// });
 
 
 
@@ -111,7 +136,7 @@ router.get("/review/:reviewID", async function (req, res) {
 
   console.log("got review by id");
 
-  res.render("ReviewDetails", {review: review});
+  res.render("reviewDetails", {review: review});
 });
 
 
@@ -128,7 +153,7 @@ router.post("/review/create", async function (req, res) {
 
   console.log("reviews created");
 
-  res.redirect("/review");
+  res.redirect("/");
 });
 
 /* POST delete reviews. */
@@ -143,7 +168,7 @@ router.post("/review/delete", async function (req, res) {
 
   console.log("review deleted");
 
-  res.redirect("/review");
+  res.redirect("/");
 });
 
 
@@ -159,23 +184,23 @@ router.post("/review/:reviewID", async function (req, res) {
 
   console.log("review updated");
 
-  res.redirect("/review");
+  res.redirect("/");
 });
 
 
 
 /* ---------Roomtype related functions starts from here -----------------*/
-/* GET home page. */
-router.get("/roomType", async function (req, res) {
-  console.log("Got request for /");
+// /* GET home page. */
+// router.get("/roomType", async function (req, res) {
+//   console.log("Got request for /");
 
-  const roomType = await myDB.getRoomType();
+//   const roomType = await myDB.getRoomType();
 
-  console.log("got roomTypes", roomType);
+//   console.log("got roomTypes", roomType);
 
-  // render the _index_ template with the roomTypes attrib as the list of roomTypes
-  res.render("index-roomType", { roomTypes: roomType});
-});
+//   // render the _index_ template with the roomTypes attrib as the list of roomTypes
+//   res.render("index-roomType", { roomTypes: roomType});
+// });
 
 
 
@@ -193,7 +218,7 @@ router.get("/roomType/:roomTypeID", async function (req, res) {
 
   console.log("got roomType by id");
 
-  res.render("RoomTypeDetails", {roomType: roomType});
+  res.render("roomTypeDetails", {roomType: roomType});
 });
 
 /* POST create roomTypes. */
@@ -208,7 +233,7 @@ router.post("/roomType/create", async function (req, res) {
 
   console.log("roomTypes created");
 
-  res.redirect("/roomType");
+  res.redirect("/");
 });
 
 /* POST delete roomTypes. */
@@ -223,7 +248,7 @@ router.post("/roomType/delete", async function (req, res) {
 
   console.log("roomType deleted");
 
-  res.redirect("/roomType");
+  res.redirect("/");
 });
 
 
@@ -239,9 +264,13 @@ router.post("/roomType/:roomTypeID", async function (req, res) {
 
   console.log("roomType updated");
 
-  res.redirect("/roomType");
+  res.redirect("/");
 });
 
 
 
 module.exports = router;
+
+
+
+
